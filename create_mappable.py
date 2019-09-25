@@ -29,8 +29,8 @@ def create_mappable(radius_steps, degree_steps, interp_vals):
     theta_vec = np.tile(theta,len(radius_steps)) # vector of theta values corresponding to lat & lon points
 
     # Calculate index for all (x,y) coordinates.
-    xi = np.tile(degree_steps,len(radius_steps))
-    yi = np.repeat(np.arange(len(radius_steps)),len(degree_steps))
+    xi = np.tile(degree_steps,len(radius_steps)).astype('int32')
+    yi = np.repeat(np.arange(len(radius_steps)),len(degree_steps)).astype('int32')
 
     # Accmap of (x,y) index values used to build array.
     subs = np.vstack([yi, xi]).T
