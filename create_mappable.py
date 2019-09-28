@@ -5,32 +5,41 @@ from pol2cart import pol2cart
 
 def create_mappable(radius_steps, degree_steps, interp_vals):
     """
-    A function to create mappable inputs to contourf plot, for visualizing data obtained
-    from radial interpolation.
+    A function to create mappable inputs to contourf plot, for visualizing data
+    obtained from radial interpolation.
 
     Parameters
     ----------
-    radius_steps : Distance (km) between interpolation rings on unit circle interpolator.
+    radius_steps : Distance (km) between interpolation rings on unit circle
+                   interpolator.
     degree_steps : Azimuth resolution (degrees) between interpolation points.
-    interp_vals : Interpolated values corresponding to above (km, deg) coordinates.
+    interp_vals : Interpolated values corresponding to above (km, deg)
+                  coordinates.
 
     Returns
     -------
-    x, y : Cartesian coordinates on unit circle, corresponding to (km, deg) coordinates
-           obtained from radial interpolation
-    array : Interpolated values referenced to cartesian (x,y) coordinates above for contourf plotting.
+    x, y : Cartesian coordinates on unit circle, corresponding to (km, deg)
+           coordinates obtained from radial interpolation
+    array : Interpolated values referenced to cartesian (x,y) coordinates above
+            for contourf plotting.
     """
 
-    assert radius_steps[0] == 0, "starting radius must be zero for contour mappable"
+    assert interp_vals.ndim == 1, """
+Input data values must be 1D"""
+    assert radius_steps[0] == 0, """
+Starting radius must be zero for contour mappable"""
 
-    rho = radius_steps/radius_steps[-1] # standardize radius values to unit circle (r = 1)
-    rho_vec = np.repeat(rho,len(degree_steps)) # vector of rho values corresponding to lat & lon points
+    rho = radius_steps/radius_steps[-1] # radius values on unit circle (r = 1)
+    # vector of rho values corresponding to lat & lon points
+    rho_vec = np.repeat(rho,np.size(degree_steps))
+
     theta = np.deg2rad(degree_steps) # convert to radians
-    theta_vec = np.tile(theta,len(radius_steps)) # vector of theta values corresponding to lat & lon points
-
+    # vector of theta values corresponding to lat & lon points
+    theta_vec = np.tile(theta,np.size(radius_steps))
     # Calculate index for all (x,y) coordinates.
-    xi = np.tile(degree_steps,len(radius_steps)).astype('int32')
-    yi = np.repeat(np.arange(len(radius_steps)),len(degree_steps)).astype('int32')
+    xi = np.tile(degree_steps,np.size(radius_steps)).astype('int32')
+    yi = np.repeat(np.arange(np.size(radius_steps)),
+                   np.size(degree_steps)).astype('int32')
 
     # Accmap of (x,y) index values used to build array.
     subs = np.vstack([yi, xi]).T
@@ -40,6 +49,6 @@ def create_mappable(radius_steps, degree_steps, interp_vals):
     (th, rh) = np.meshgrid(theta,rho)
     (x,y) = pol2cart(th, rh)
 
-    # Return 3 vectors - the array values, the x-coordinates, and the y-coordinates
-    # for input into contourf plot.
+    # Return 3 vectors - the array values, the x-coordinates, and the
+    # y-coordinates for input into contourf plot.
     return array, x, y
