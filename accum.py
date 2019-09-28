@@ -7,7 +7,7 @@ def accum(accmap, a, func=None, size=None, fill_value=0, dtype=None):
     An accumulation function similar to MATLAB `accumarray` function.
 
     (*** This function was obtained from SciPy Cookbook
-    (https://scipy-cookbook.readthedocs.io), contributed by user WarrenWeckesser
+    (https://scipy-cookbook.readthedocs.io), posted by user WarrenWeckesser
     (https://scipy-cookbook.readthedocs.io/items/AccumarrayLike.html)
     -Dmitri Kalashnikov)
 
@@ -52,7 +52,7 @@ def accum(accmap, a, func=None, size=None, fill_value=0, dtype=None):
 
     # Check for bad arguments and handle the defaults.
     if accmap.shape[:a.ndim] != a.shape:
-        raise ValueError("The initial dimensions of accmap must be the same as a.shape")
+        raise ValueError("The initial dims of accmap must be same as a.shape")
     if func is None:
         func = np.sum
     if dtype is None:
