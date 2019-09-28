@@ -4,7 +4,7 @@ import geopy.distance as gd
 import scipy.interpolate as si
 
 
-def define_radial_grid(start_radius, radius_step, end_radius, degree_resolution):
+def radial_grid(start_radius, radius_step, end_radius, degree_resolution):
     """
     A function to define a radial interpolation grid based on a unit circle, and centered
     on a geographic (lat, lon) point of interest. This methodology was developed by Loikith
@@ -43,6 +43,10 @@ def define_radial_grid(start_radius, radius_step, end_radius, degree_resolution)
     """
 
     assert start_radius >= 0, "radius values must not be negative"
+    assert radius_step < (end_radius - start_radius),"""
+radius steps must be less than full radius"""
+    assert 0 < degree_resolution <= 90,"""
+degree resolution should be positive value not exceeding 90"""
 
     # If start_radius is set to zero, will duplicate interpolation of origin and 0-degree
     # (360-degree) azimuth. This is done to create smooth contourf plot for visualization.
