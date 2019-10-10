@@ -46,7 +46,7 @@ Starting radius must be zero for contour mappable"""
 
     # Build mappable array from interp_vals using (x,y) index values.
     array = accum(subs, interp_vals)
-    (th, rh) = np.meshgrid(theta,rho)
+    (th, rh) = np.meshgrid(theta, rho)
     (x,y) = pol2cart(th, rh)
 
     # Return 3 vectors - the array values, the x-coordinates, and the
