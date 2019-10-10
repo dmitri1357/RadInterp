@@ -21,7 +21,7 @@ def radial_grid(start_radius, radius_step, end_radius, degree_resolution):
     start_radius : Radius distance in km (from origin) of first (innermost)
                    interpolation ring. If start_radius = 0, interpolation at
                    origin and at 0 degree azimuth will be duplicated in order
-                   to produce a continous contourf plot for visualization. If
+                   to produce a continuous contourf plot for visualization. If
                    start_radius is set to any value higher than zero, both the
                    origin and 0 degree azimuth will be interpolated only once.
                    Use this version if computing statistics as all
