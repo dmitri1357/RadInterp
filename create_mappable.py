@@ -45,9 +45,9 @@ Starting radius must be zero for contour mappable"""
     subs = np.vstack([yi, xi]).T
 
     # Build mappable array from interp_vals using (x,y) index values.
-    array = accum(subs, interp_vals)
-    (th, rh) = np.meshgrid(theta, rho)
-    (x,y) = pol2cart(th, rh)
+    array = accum(subs, interp_vals) # associate values with coordinates
+    (th, rh) = np.meshgrid(theta, rho) # create meshgrid on polar coordinates
+    (x, y) = pol2cart(th, rh) # convert meshgrid to cartesian (x,y) coordinates
 
     # Return 3 vectors - the array values, the x-coordinates, and the
     # y-coordinates for input into contourf plot.
