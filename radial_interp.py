@@ -41,7 +41,7 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
     Returns
     -------
     interp_vals :  For 2D input array: returns vector of interpolated values
-                   drawn from input array at every (lat,lon) point on radial
+                   pulled from input array at every (lat,lon) point on radial
                    grid. For 3D input arrary, returns 2D array of (interpolated
                    values, timesteps).
     interp_lat :  The latitude coordinates of interpolated points.
@@ -87,8 +87,12 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
             return interp_vals
 
     else:
+        # Need to figure out a way to handle this functionality better, maybe split
+        # this file into 2 separate functions?
+        assert a.ndim == 2,"""
+Input array must be 2D if providing multiple (lat,lon) input arguments"""
         assert return_coordinates == False,"""
-Interpolated lat,lon coordinates only returned for one input lat,lon pair"""
+Interpolated (lat,lon) coordinates only returned for one input (lat,lon) pair"""
         array_out = np.empty([len(center_lon),len(center_lat),
                               len(radius_steps)*len(degree_steps)])
 
