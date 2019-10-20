@@ -22,30 +22,42 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
 
     Parameters
     ----------
-    a : 2D or 3D input array of values from which to interpolate (data should
+    a : ndarray
+        2D or 3D input array of values from which to interpolate (data should
         be spatial and continuous on a regular grid, e.g. raster, reanalysis,
         climate model output, etc); with 3rd dimension representing time.
-    a_lats : Vector of latitude values defining input data array.
-    a_lons : Vector of longitude values defining input data array.
-    center_lat : Latitude defining origin around which the unit circle
-                 interpolator will be built.
-    center_lon : Longitude defining origin around which the unit circle
-                 interpolator will be built.
-    radius_steps : Distance (km) between interpolation rings.
-    degree_steps : Azimuth resolution (degrees) between interpolation points.
-    return_coordinates : Boolean to indicate whether lat & lon interpolation
-                         coordinates should be returned, default is "False" for
-                         contourf plotting. Set to "True" if mapping on
-                         geographically projected axes.
+    a_lats : int or float
+        Vector of latitude values defining input data array.
+    a_lons : int or float
+        Vector of longitude values defining input data array.
+    center_lat : int or float
+        Latitude coordinate of origin, around which the unit circle
+        interpolator will be built.
+    center_lon : int or float
+        Longitude coordinate of origin, around which the unit circle
+        interpolator will be built.
+    radius_steps : int or float
+        Distance (km) between interpolation rings.
+    degree_steps : int or float
+        Azimuth resolution (degrees) between interpolation
+        points on each interpolation ring.
+    return_coordinates : True, optional
+        Boolean to indicate whether lat & lon interpolation
+        coordinates should be returned, default is "False" for
+        contourf plotting. Set to "True" if mapping on
+        geographically projected axes.
 
     Returns
     -------
-    interp_vals :  For 2D input array: returns vector of interpolated values
-                   pulled from input array at every (lat,lon) point on radial
-                   grid. For 3D input arrary, returns 2D array of (interpolated
-                   values, timesteps).
-    interp_lat :  The latitude coordinates of interpolated points.
-    interp_lon :  The longitude coordinates of interpolated points.
+    interp_vals : ndarray
+        For 2D input array: returns vector of interpolated values
+        extracted from input array at every (lat,lon) point on radial grid.
+        For 3D input arrary: returns 2D array of (interpolated values,
+        timesteps).
+    interp_lat : ndarray
+        The latitude coordinates of interpolated points.
+    interp_lon : ndarray
+        The longitude coordinates of interpolated points.
     """
 
     assert 2 <= a.ndim <= 3, "Input array must be 2D or 3D"
@@ -87,12 +99,12 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
             return interp_vals
 
     else:
-        # Need to figure out a way to handle this functionality better, maybe split
-        # this file into 2 separate functions?
+        # Need to figure out a way to handle this functionality better, maybe
+        # split this file into 2 separate functions?
         assert a.ndim == 2,"""
 Input array must be 2D if providing multiple (lat,lon) input arguments"""
         assert return_coordinates == False,"""
-Interpolated (lat,lon) coordinates only returned for one input (lat,lon) pair"""
+Interpolated (lat,lon) coordinates only returned for one input coord pair"""
         array_out = np.empty([len(center_lon),len(center_lat),
                               len(radius_steps)*len(degree_steps)])
 
