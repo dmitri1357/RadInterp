@@ -61,87 +61,42 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
     """
 
     assert 2 <= a.ndim <= 3, "Input array must be 2D or 3D"
+    assert np.size(center_lat) == 1, "Must provide single value for latitude"
+    assert np.size(center_lon) == 1, "Must provide single value for longitude"
     assert radius_steps[0] >= 0, "Starting radius must not be negative"
 
-    if np.size(center_lat) == 1 and np.size(center_lon) == 1:
-        interp_lat = []
-        interp_lon = []
+    interp_lat = []
+    interp_lon = []
 
-        if radius_steps[0] == 0:
-            for km in radius_steps:
-                for deg in degree_steps:
-                    start = geopy.Point(center_lat,center_lon)
-                    transect = gd.distance(kilometers = km)
-                    dest = transect.destination(point = start, bearing = deg)
-                    interp_lat.append(dest[0])
-                    interp_lon.append(dest[1])
-
-        else:
-            for km in radius_steps:
-                for deg in degree_steps:
-                    start = geopy.Point(center_lat,center_lon)
-                    transect = gd.distance(kilometers = km)
-                    dest = transect.destination(point = start, bearing = deg)
-                    interp_lat.append(dest[0])
-                    interp_lon.append(dest[1])
-            # Add lat & lon of origin
-            interp_lat = np.hstack([center_lat, interp_lat])
-            interp_lon = np.hstack([center_lon, interp_lon])
-
-        interp_vals = si.interpn((a_lons,a_lats),a,(interp_lon,interp_lat))
-
-        # For mapping on geographic projection, can use the interpolated (lat,
-        # lon) values
-        if return_coordinates == True:
-            return interp_vals, interp_lat, interp_lon
-        # For non-projected contourf plot, lat & lon values will not be needed
-        else:
-            return interp_vals
+    if radius_steps[0] == 0:
+        for km in radius_steps:
+            for deg in degree_steps:
+                start = geopy.Point(center_lat,center_lon)
+                transect = gd.distance(kilometers = km)
+                dest = transect.destination(point = start, bearing = deg)
+                interp_lat.append(dest[0])
+                interp_lon.append(dest[1])
 
     else:
-        # Need to figure out a way to handle this functionality better, maybe
-        # split this file into 2 separate functions?
-        assert a.ndim == 2,"""
-Input array must be 2D if providing multiple (lat,lon) input arguments"""
-        assert return_coordinates == False,"""
-Interpolated (lat,lon) coordinates only returned for one input coord pair"""
-        array_out = np.empty([len(center_lon),len(center_lat),
-                              len(radius_steps)*len(degree_steps)])
+        for km in radius_steps:
+            for deg in degree_steps:
+                start = geopy.Point(center_lat,center_lon)
+                transect = gd.distance(kilometers = km)
+                dest = transect.destination(point = start, bearing = deg)
+                interp_lat.append(dest[0])
+                interp_lon.append(dest[1])
+        # Add lat & lon of origin
+        interp_lat = np.hstack([center_lat, interp_lat])
+        interp_lon = np.hstack([center_lon, interp_lon])
 
-        for lon in center_lon:
-            for lat in center_lat:
-                interp_lat = []
-                interp_lon = []
+    interp_vals = si.interpn((a_lons,a_lats),a,(interp_lon,interp_lat))
 
-                if radius_steps[0] == 0:
-                    for km in radius_steps:
-                        for deg in degree_steps:
-                            start = geopy.Point(lat,lon)
-                            transect = gd.distance(kilometers = km)
-                            dest = transect.destination(point=start,
-                                                        bearing=deg)
-                            interp_lat.append(dest[0])
-                            interp_lon.append(dest[1])
-
-                else:
-                    for km in radius_steps:
-                        for deg in degree_steps:
-                            start = geopy.Point(lat,lon)
-                            transect = gd.distance(kilometers = km)
-                            dest = transect.destination(point=start,
-                                                        bearing=deg)
-                            interp_lat.append(dest[0])
-                            interp_lon.append(dest[1])
-                    # Add lat & lon of origin
-                    interp_lat = np.hstack([center_lat, interp_lat])
-                    interp_lon = np.hstack([center_lon, interp_lon])
-
-                interp_vals = si.interpn((a_lons,a_lats),a,
-                                         (interp_lon,interp_lat))
-                del interp_lat, interp_lon
-                array_out[lon,lat,:] = interp_vals
-
-                return array_out
-
+    # For mapping on geographic projection, can use the interpolated (lat,
+    # lon) values
+    if return_coordinates == True:
+        return interp_vals, interp_lat, interp_lon
+    # For non-projected contourf plot, lat & lon values will not be needed
+    else:
+        return interp_vals
 
 
