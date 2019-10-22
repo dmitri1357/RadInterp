@@ -10,18 +10,23 @@ def create_mappable(radius_steps, degree_steps, interp_vals):
 
     Parameters
     ----------
-    radius_steps : Distance (km) between interpolation rings on unit circle
-                   interpolator.
-    degree_steps : Azimuth resolution (degrees) between interpolation points.
-    interp_vals : Interpolated values corresponding to above (km, deg)
-                  coordinates.
+    radius_steps : ndarray
+        Distance (km) between interpolation rings on unit circle
+        interpolator.
+    degree_steps : ndarray
+        Azimuth resolution (degrees) between interpolation points on unit
+        circle interpolator.
+    interp_vals : ndarray
+        Interpolated values corresponding to above (km, deg) coordinates.
 
     Returns
     -------
-    x, y : Cartesian coordinates on unit circle, corresponding to (km, deg)
-           coordinates obtained from radial interpolation
-    array : Interpolated values referenced to cartesian (x,y) coordinates above
-            for contourf plotting.
+    x, y : ndarrays
+        Cartesian coordinates on unit circle, corresponding to (km, deg)
+        coordinates obtained from radial interpolation.
+    array : ndarray
+        Interpolated values corresponding to Cartesian (x,y) coordinates above
+        for contourf plotting.
     """
 
     assert interp_vals.ndim == 1, """
