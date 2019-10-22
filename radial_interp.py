@@ -44,7 +44,7 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
     return_coordinates : True, optional
         Boolean to indicate whether lat & lon interpolation
         coordinates should be returned, default is "False" for
-        contourf plotting. Set to "True" if mapping on
+        Matplotlib.pyplot contourf plotting. Set to "True" if mapping on
         geographically projected axes.
 
     Returns
@@ -61,9 +61,12 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
     """
 
     assert 2 <= a.ndim <= 3, "Input array must be 2D or 3D"
-    assert np.size(center_lat) == 1, "Must provide single value for latitude"
-    assert np.size(center_lon) == 1, "Must provide single value for longitude"
     assert radius_steps[0] >= 0, "Starting radius must not be negative"
+
+    if np.size(center_lat) != 1:
+        raise ValueError("Must provide single value for latitude")
+    if np.size(center_lon) != 1:
+        raise ValueError("Must provide single value for longitude")
 
     interp_lat = []
     interp_lon = []
