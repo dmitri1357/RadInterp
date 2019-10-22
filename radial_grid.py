@@ -20,19 +20,19 @@ def radial_grid(start_radius, radius_step, end_radius, degree_resolution):
     ----------
     start_radius : int or float
         Radius distance in km (from origin) of first (innermost)
-        interpolation ring. If start_radius = 0, interpolation at
+        interpolation ring. If `start_radius` = 0, interpolation at
         origin and at 0 degree azimuth will be duplicated in order
         to produce a continuous contourf plot for visualization. If
-        start_radius is set to any value higher than zero, both the
+        `start_radius` is set to any value higher than zero, both the
         origin and 0 degree azimuth will be interpolated only once.
         Use this version if computing statistics as all
         interpolation points will be unique. Use version with
-        start_radius = 0 for plotting, as otherwise the plot will
+        `start_radius` = 0 for plotting, as otherwise the plot will
         show no values around center and no values in a vertical
         slice at 0 degrees from center.
     radius_step : int or float
         Radius distance in km between each interpolation ring. When
-        start_radius != 0, radius_step will be equal to start_radius.
+        `start_radius` != 0, `radius_step` will be equal to `start_radius`.
     end_radius : int or float
         Radius distance in km (from origin) of last (outermost)
         interpolation ring; this distance defines the radius of the
@@ -46,10 +46,9 @@ def radial_grid(start_radius, radius_step, end_radius, degree_resolution):
 
     Returns
     -------
-    radius_steps, degree_steps : int or float
-        Vectors of polar coordinates (kilometers,
-        degrees) defining the radial interpolation
-        grid in geographic space.
+    radius_steps, degree_steps : ndarrays
+        Vectors of polar coordinates (kilometers, degrees) defining the
+        radial interpolation grid in geographic space.
     """
 
     assert start_radius >= 0, "Radius values must not be negative"
