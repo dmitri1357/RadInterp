@@ -76,9 +76,5 @@ def accum(accmap, a, func=None, size=None, fill_value=0, dtype=None):
     # Create the output array.
     array = np.empty(size, dtype=dtype)
     for s in product(*[range(k) for k in size]):
-        if vals[s] == []:
-            array[s] = fill_value
-        else:
-            array[s] = func(vals[s])
-
+        array[s] = fill_value if vals[s] == [] else func(vals[s])
     return array

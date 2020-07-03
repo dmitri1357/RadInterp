@@ -71,23 +71,15 @@ def radial_interp(a, a_lats, a_lons, center_lat, center_lon, radius_steps,
     interp_lat = []
     interp_lon = []
 
-    if radius_steps[0] == 0:
-        for km in radius_steps:
-            for deg in degree_steps:
-                start = geopy.Point(center_lat,center_lon)
-                transect = gd.distance(kilometers = km)
-                dest = transect.destination(point = start, bearing = deg)
-                interp_lat.append(dest[0])
-                interp_lon.append(dest[1])
+    for km in radius_steps:
+        for deg in degree_steps:
+            start = geopy.Point(center_lat,center_lon)
+            transect = gd.distance(kilometers = km)
+            dest = transect.destination(point = start, bearing = deg)
+            interp_lat.append(dest[0])
+            interp_lon.append(dest[1])
 
-    else:
-        for km in radius_steps:
-            for deg in degree_steps:
-                start = geopy.Point(center_lat,center_lon)
-                transect = gd.distance(kilometers = km)
-                dest = transect.destination(point = start, bearing = deg)
-                interp_lat.append(dest[0])
-                interp_lon.append(dest[1])
+    if radius_steps[0] != 0:
         # Add lat & lon of origin
         interp_lat = np.hstack([center_lat, interp_lat])
         interp_lon = np.hstack([center_lon, interp_lon])
