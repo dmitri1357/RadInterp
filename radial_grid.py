@@ -62,12 +62,12 @@ Degree resolution should be positive value not exceeding 90"""
     # plot for visualization.
     if start_radius == 0:
         radius_steps = np.arange(start_radius,end_radius+1,radius_step)
-        degree_steps = np.arange(0,360+1,degree_resolution)
+        degree_steps = np.arange(0,361,degree_resolution)
 
     # Version without duplication, for computing statistics.
     else:
         radius_steps = np.arange(start_radius,end_radius+1,radius_step)
-        degree_steps = np.arange(0+degree_resolution,360+1,degree_resolution)
+        degree_steps = np.arange(0+degree_resolution,361,degree_resolution)
 
     return radius_steps, degree_steps
 
