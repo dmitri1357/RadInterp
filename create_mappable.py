@@ -34,24 +34,8 @@ def create_mappable(radius_steps, degree_steps, interp_vals):
 Starting radius must be zero for contourf mappable"""
 
     rho = radius_steps/radius_steps[-1] # radius values on unit circle (r = 1)
-
-    # vector of rho values corresponding to lat & lon points
-    rho_vec = np.repeat(rho,np.size(degree_steps))
-
     theta = np.deg2rad(degree_steps) # convert to radians
-
-    # vector of theta values corresponding to lat & lon points
-    theta_vec = np.tile(theta,np.size(radius_steps))
-
-    # Calculate index for all (x,y) coordinates.
-    xi = np.tile(degree_steps,np.size(radius_steps)).astype('int32')
-    yi = np.repeat(radius_steps,np.size(degree_steps)).astype('int32')
-
-    # Accmap of (x,y) index values used to build array.
-    subs = np.vstack([yi, xi]).T
-
-    # Build mappable array from interp_vals using (x,y) index values.
-    array = accum(subs, interp_vals) # associate values with coordinates
+    array = np.reshape(interp_vals,(len(radius_steps),len(degree_steps))) # reshape to match coordinates
     (th, rh) = np.meshgrid(theta, rho) # create meshgrid on polar coordinates
     (x, y) = pol2cart(th, rh) # convert meshgrid to cartesian (x,y) coordinates
 
