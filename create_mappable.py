@@ -45,8 +45,7 @@ Starting radius must be zero for contourf mappable"""
 
     # Calculate index for all (x,y) coordinates.
     xi = np.tile(degree_steps,np.size(radius_steps)).astype('int32')
-    yi = np.repeat(np.arange(np.size(radius_steps)),
-                   np.size(degree_steps)).astype('int32')
+    yi = np.repeat(radius_steps,np.size(degree_steps)).astype('int32')
 
     # Accmap of (x,y) index values used to build array.
     subs = np.vstack([yi, xi]).T
