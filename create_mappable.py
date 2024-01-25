@@ -1,5 +1,4 @@
 import numpy as np
-from accum import accum
 from pol2cart import pol2cart
 
 
